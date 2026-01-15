@@ -4,6 +4,10 @@ const app = express();
 require("dotenv").config();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const authRoute = require("./routes/auth.route.js");
+app.use("/api/auth", authRoute);
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
