@@ -23,6 +23,29 @@ const ProfileSchema = mongoose.Schema(
         ref: "Booking",
       },
     ],
+    rating: {
+      type: Number,
+      default: 0,
+      select: false,
+    },
+    pricePerHour: {
+      type: Number,
+      default: null,
+      select: false,
+    },
+    accountType: {
+      type: String,
+      enum: ["Individual", "Organization"],
+      default: "Individual",
+      select: false,
+    },
+    services: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Service",
+        select: false,
+      },
+    ],
   },
   { timestamps: true }
 );

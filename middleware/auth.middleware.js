@@ -21,7 +21,7 @@ const protect = async (req, res, next) => {
     }
     const email = data.user.email;
     const user = await User.findOne({ email });
-    req.user = { ...data.user, id: user._id };
+    req.user = { ...data.user, id: user._id, role: user.role };
     next();
   } catch (e) {
     res.status(500).json({
