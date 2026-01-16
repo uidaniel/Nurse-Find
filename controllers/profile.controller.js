@@ -1,10 +1,11 @@
+const validateInput = require("../functions/validate-input.functions.js");
 const Profile = require("../models/profile.model.js");
 
 const getProfile = async (req, res) => {
   try {
     console.log(req.user);
     const profile = await Profile.findOne({ user: req.user.id }).populate(
-      "user"
+      "address"
     );
 
     if (!profile) {
@@ -22,6 +23,4 @@ const getProfile = async (req, res) => {
   }
 };
 
-const updateProfile = async (req, res) => {};
-
-module.exports = { getProfile, updateProfile };
+module.exports = { getProfile };

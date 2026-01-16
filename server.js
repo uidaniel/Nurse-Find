@@ -8,8 +8,11 @@ app.use(express.urlencoded({ extended: true }));
 
 const authRoute = require("./routes/auth.route.js");
 const profileRoute = require("./routes/profile.route.js");
+const addressRoute = require("./routes/address.route.js");
+
 app.use("/api/auth", authRoute);
 app.use("/api", profileRoute);
+app.use("/api", addressRoute);
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
