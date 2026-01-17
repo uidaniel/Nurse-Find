@@ -4,9 +4,15 @@ const Profile = require("../models/profile.model.js");
 const getProfile = async (req, res) => {
   try {
     console.log(req.user);
-    const profile = await Profile.findOne({ user: req.user.id }).populate(
-      "address"
-    );
+    let query = Profile.findOne({ user: req.user.id });
+
+    if (req.user.role === "nurse") {
+      query = query
+        .select("+pricePerHour +accountType +rating +services")
+        .populate("services");
+    }
+
+    const profile = await query;
 
     if (!profile) {
       return res.status(400).json({
