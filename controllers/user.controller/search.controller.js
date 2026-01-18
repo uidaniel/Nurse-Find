@@ -1,5 +1,5 @@
-const Service = require("../models/services.model.js");
-const Profile = require("../models/profile.model.js");
+const Service = require("../../models/services.model.js");
+const Profile = require("../../models/profile.model.js");
 
 const getPopularSearches = async (req, res) => {
   try {

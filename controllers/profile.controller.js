@@ -1,32 +1,50 @@
-const validateInput = require("../functions/validate-input.functions.js");
-const Profile = require("../models/profile.model.js");
+const Nurse = require("../models/nurse.model.js");
 
-const getProfile = async (req, res) => {
+const getNurseProfile = async (req, res) => {
   try {
-    console.log(req.user);
-    let query = Profile.findOne({ user: req.user.id });
+    const userId = req.user.id;
 
-    if (req.user.role === "nurse") {
+    let query = Nurse.findById(userId);
+
+    // Always expose accountType so we know what to unlock
+    query = query.select("+accountType");
+
+    console.log(req.user);
+
+    // INDIVIDUAL NURSE ACCOUNT
+    if (req.user.accountType === "Individual") {
       query = query
-        .select("+pricePerHour +accountType +rating +services")
-        .populate("services");
+        .select("+nursingInformation +verifyNurseCredentials")
+        .populate("nursingInformation.areaOfSpecialization");
     }
 
-    const profile = await query;
+    // ORGANIZATION ACCOUNT
+    if (req.user.accountType === "Organization") {
+      query = query.select(
+        "+organisationDetails +organizationVerification +organizationRepresentative",
+      );
+    }
 
-    if (!profile) {
-      return res.status(400).json({
-        status: 400,
-        message: "Profile not found",
+    const nurse = await query;
+
+    if (!nurse) {
+      return res.status(404).json({
+        success: false,
+        message: "Nurse profile not found",
       });
     }
-    res.status(200).json({
-      status: 200,
-      profile,
+
+    return res.status(200).json({
+      success: true,
+      profile: nurse,
     });
-  } catch (e) {
-    res.status(500).json({ status: 500, message: e.message });
+  } catch (error) {
+    console.error("Get nurse profile error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
-module.exports = { getProfile };
+module.exports = { getNurseProfile };

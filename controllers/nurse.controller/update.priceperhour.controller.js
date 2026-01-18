@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const Profile = require("../models/profile.model.js");
-const User = require("../models/user.model.js");
+const Profile = require("../../models/profile.model.js");
+const User = require("../../models/user.model.js");
 
 const updatePricePerHour = async (req, res) => {
   try {
@@ -23,7 +23,7 @@ const updatePricePerHour = async (req, res) => {
 
     const profile = await Profile.findOneAndUpdate(
       { user: req.user.id },
-      { pricePerHour: price }
+      { pricePerHour: price },
     );
     console.log(profile);
     if (!profile) {

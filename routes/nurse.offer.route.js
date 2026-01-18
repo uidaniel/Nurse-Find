@@ -5,7 +5,7 @@ const {
   editOffer,
   getOffer,
   deleteOffer,
-} = require("../controllers/nurse.offer.controller.js");
+} = require("../controllers/nurse.controller/nurse.offer.controller.js");
 const { protect } = require("../middleware/auth.middleware.js");
 
 router.post("/add", protect, createOffer);

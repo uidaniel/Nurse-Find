@@ -1,6 +1,6 @@
-const supabase = require("../supabase.js");
-const validateInput = require("../functions/validate-input.functions.js");
-const User = require("../models/user.model.js");
+const supabase = require("../../supabase.js");
+const validateInput = require("../../functions/validate-input.functions.js");
+const User = require("../../models/user.model.js");
 const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {

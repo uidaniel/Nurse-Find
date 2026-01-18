@@ -1,4 +1,5 @@
 const User = require("../models/user.model.js");
+const Nurse = require("../models/nurse.model.js");
 const supabase = require("../supabase.js");
 
 const protect = async (req, res, next) => {
@@ -19,14 +20,39 @@ const protect = async (req, res, next) => {
         message: "Invalid or expired token",
       });
     }
+    console.log(data);
     const email = data.user.email;
-    const user = await User.findOne({ email });
-    req.user = { ...data.user, id: user._id, role: user.role };
+    const role = data.user.user_metadata.role;
+
+    let param;
+
+    if (role == "nurse") {
+      param = Nurse.findOne({ email }).select("+accountType");
+    } else {
+      param = User.findOne({ email });
+    }
+
+    const user = await param;
+    console.log(user);
+    if (role == "nurse") {
+      req.user = {
+        ...data.user,
+        id: user._id,
+        role: user.role,
+        accountType: user.accountType,
+      };
+    } else {
+      req.user = { ...data.user, id: user._id, role: user.role };
+    }
+
+    console.log(user);
+
     next();
   } catch (e) {
+    console.log(e);
     res.status(500).json({
       status: 500,
-      message: "Authentication failed",
+      message: e.message,
     });
   }
 };

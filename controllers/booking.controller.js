@@ -87,7 +87,7 @@ const addBooking = async (req, res) => {
 
     const durationInHours = getDurationInHours(
       serviceInfo.startAt,
-      serviceInfo.endAt
+      serviceInfo.endAt,
     );
     console.log(durationInHours);
     const pricePerHour = nurseProfile.pricePerHour;
@@ -196,7 +196,7 @@ const updateBookingStatus = async (req, res) => {
     const booking = await Booking.findByIdAndUpdate(
       id,
       { status },
-      { new: true }
+      { new: true },
     );
     console.log(booking);
     if (!booking) {

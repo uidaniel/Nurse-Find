@@ -4,7 +4,7 @@ const router = express.Router();
 const {
   search,
   getPopularSearches,
-} = require("../controllers/search.controller.js");
+} = require("../controllers/user.controller/search.controller.js");
 const { protect } = require("../middleware/auth.middleware.js");
 
 router.get("/search/:query", protect, search);

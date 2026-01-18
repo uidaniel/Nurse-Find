@@ -1,5 +1,5 @@
-const Booking = require("../models/booking.model.js");
-const NurseOffer = require("../models/nurse.offer.model.js");
+const Booking = require("../../models/booking.model.js");
+const NurseOffer = require("../../models/nurse.offer.model.js");
 
 const getUserDashboardDetails = async (req, res) => {
   try {

@@ -1,10 +1,11 @@
 const express = require("express");
-const validateInput = require("../functions/validate-input.functions.js");
-const supabase = require("../supabase.js");
-const User = require("../models/user.model.js");
-const Profile = require("../models/profile.model.js");
+const validateInput = require("../../functions/validate-input.functions.js");
+const supabase = require("../../supabase.js");
+const User = require("../../models/user.model.js");
+const Profile = require("../../models/profile.model.js");
+const Nurse = require("../../models/nurse.model.js");
 
-const register = async (req, res) => {
+const registerUser = async (req, res) => {
   try {
     const { name, email, password, phone, role } = req.body;
 
@@ -24,6 +25,10 @@ const register = async (req, res) => {
       email,
       password,
       email_confirm: true,
+      user_metadata: {
+        role: "patient",
+        name,
+      },
     });
 
     if (error) {
@@ -57,4 +62,4 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = { register };
+module.exports = { registerUser };

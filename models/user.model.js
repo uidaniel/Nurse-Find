@@ -23,9 +23,10 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: true,
       enum: ["nurse", "patient", "admin"],
+      default: "patient",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("User", UserSchema);

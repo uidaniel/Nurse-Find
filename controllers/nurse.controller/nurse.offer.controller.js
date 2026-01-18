@@ -1,6 +1,6 @@
-const NurseOffer = require("../models/nurse.offer.model.js");
+const NurseOffer = require("../../models/nurse.offer.model.js");
 const mongoose = require("mongoose");
-const validateInput = require("../functions/validate-input.functions.js");
+const validateInput = require("../../functions/validate-input.functions.js");
 
 const createOffer = async (req, res) => {
   try {

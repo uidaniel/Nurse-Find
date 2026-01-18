@@ -16,6 +16,7 @@ const serviceRoute = require("./routes/service.route.js");
 const nurseServiceRoute = require("./routes/nurse.service.route.js");
 const userDashboardRoute = require("./routes/user.dashboard.route.js");
 const searchRoute = require("./routes/search.route.js");
+const nurseProfileRoute = require("./routes/nurse.profile.route.js");
 
 app.use("/api/auth", authRoute);
 app.use("/api", profileRoute);
@@ -27,6 +28,7 @@ app.use("/api/services", serviceRoute);
 app.use("/api", nurseServiceRoute);
 app.use("/api", userDashboardRoute);
 app.use("/api", searchRoute);
+app.use("/api", nurseProfileRoute);
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
