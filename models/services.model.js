@@ -9,6 +9,11 @@ const ServiceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  searchCount: {
+    type: Number,
+    default: 0,
+    select: false,
+  },
 });
 
 module.exports = mongoose.model("Service", ServiceSchema);

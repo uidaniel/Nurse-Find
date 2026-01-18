@@ -41,13 +41,13 @@ const ProfileSchema = mongoose.Schema(
     },
     services: [
       {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Service",
         select: false,
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Profile", ProfileSchema);

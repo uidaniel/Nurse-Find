@@ -14,6 +14,8 @@ const offerRoute = require("./routes/nurse.offer.route.js");
 const updatePphRoute = require("./routes/update.priceperhour.routes.js");
 const serviceRoute = require("./routes/service.route.js");
 const nurseServiceRoute = require("./routes/nurse.service.route.js");
+const userDashboardRoute = require("./routes/user.dashboard.route.js");
+const searchRoute = require("./routes/search.route.js");
 
 app.use("/api/auth", authRoute);
 app.use("/api", profileRoute);
@@ -23,6 +25,8 @@ app.use("/api/offer", offerRoute);
 app.use("/api", updatePphRoute);
 app.use("/api/services", serviceRoute);
 app.use("/api", nurseServiceRoute);
+app.use("/api", userDashboardRoute);
+app.use("/api", searchRoute);
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
