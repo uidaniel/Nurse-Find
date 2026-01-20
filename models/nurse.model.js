@@ -108,6 +108,11 @@ const NurseSchema = new mongoose.Schema(
       },
       select: false,
     },
+
+    activeStatus: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );

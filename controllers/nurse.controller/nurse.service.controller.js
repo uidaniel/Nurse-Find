@@ -140,5 +140,6 @@ const removeNurseService = async (req, res) => {
     });
   }
 };
+2;
 
 module.exports = { addNurseService, removeNurseService };
