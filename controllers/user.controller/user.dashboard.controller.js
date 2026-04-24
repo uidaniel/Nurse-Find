@@ -12,7 +12,7 @@ const getUserDashboardDetails = async (req, res) => {
     const Bookings = await Booking.find({ user: req.user.id })
       .sort({ createdAt: -1 })
       .limit(5);
-    const NurseOffers = await NurseOffer.find({ user: req.user.id })
+    const NurseOffers = await NurseOffer.find()
       .sort({ createdAt: -1 })
       .limit(5);
 

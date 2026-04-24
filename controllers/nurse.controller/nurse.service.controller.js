@@ -1,4 +1,5 @@
 const Nurse = require("../../models/nurse.model.js");
+const Profile = require("../../models/profile.model.js");
 const Service = require("../../models/services.model.js");
 const mongoose = require("mongoose");
 const validateInput = require("../../functions/validate-input.functions.js");
@@ -58,6 +59,11 @@ const addNurseService = async (req, res) => {
 
     nurse.nursingInformation.areaOfSpecialization.push(service._id);
     await nurse.save();
+
+    await Profile.findOneAndUpdate(
+      { user: req.user.id },
+      { $addToSet: { services: service._id } },
+    );
 
     const populatedNurse = await Nurse.findById(req.user.id)
       .select("+nursingInformation")
@@ -124,9 +130,10 @@ const removeNurseService = async (req, res) => {
       { new: true },
     );
 
-    const populatedNurse = await Nurse.findById(req.user.id)
-      .select("+nursingInformation")
-      .populate("nursingInformation.areaOfSpecialization");
+    await Profile.findOneAndUpdate(
+      { user: req.user.id },
+      { $pull: { services: id } },
+    );
 
     return res.status(200).json({
       success: true,
@@ -140,6 +147,5 @@ const removeNurseService = async (req, res) => {
     });
   }
 };
-2;
 
 module.exports = { addNurseService, removeNurseService };

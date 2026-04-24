@@ -37,24 +37,23 @@ const search = async (req, res) => {
 
     switch (sort) {
       case "popular":
-        sortOption = { "user.rating": -1 };
-        // or service.searchCount if you want service popularity
+        sortOption = { rating: -1 };
         break;
 
       case "rating":
-        sortOption = { "ratings.average": -1 };
+        sortOption = { rating: -1 };
         break;
 
       case "price_low":
-        sortOption = { "pricing.price": 1 };
+        sortOption = { pricePerHour: 1 };
         break;
 
       case "price_high":
-        sortOption = { "pricing.price": -1 };
+        sortOption = { pricePerHour: -1 };
         break;
 
       default:
-        sortOption = { createdAt: -1 }; // newest first
+        sortOption = { createdAt: -1 };
     }
 
     const nurses = (
@@ -62,7 +61,7 @@ const search = async (req, res) => {
         services: { $in: [service._id] },
       })
         .select("+services -bookingHistory")
-        .populate("services", "name")
+        .populate("services", "title")
         .populate({
           path: "user",
           match: { role: "nurse" },

@@ -9,8 +9,6 @@ const getNurseProfile = async (req, res) => {
     // Always expose accountType so we know what to unlock
     query = query.select("+accountType");
 
-    console.log(req.user);
-
     // INDIVIDUAL NURSE ACCOUNT
     if (req.user.accountType === "Individual") {
       query = query

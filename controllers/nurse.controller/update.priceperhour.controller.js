@@ -1,35 +1,32 @@
-const mongoose = require("mongoose");
 const Profile = require("../../models/profile.model.js");
-const User = require("../../models/user.model.js");
+const Nurse = require("../../models/nurse.model.js");
 
 const updatePricePerHour = async (req, res) => {
   try {
     const { price } = req.body;
-    const isANurse = await User.findOne({ _id: req.user.id });
-    console.log(isANurse, req.user.email);
-    if (isANurse) {
-      if (isANurse.role !== "nurse") {
-        return res.status(400).json({
-          status: 400,
-          message: "User is not a nurse",
-        });
-      }
-    } else {
-      return res.status(400).json({
-        status: 400,
-        message: "User not found",
+    const nurse = await Nurse.findOne({ _id: req.user.id });
+    if (!nurse) {
+      return res.status(404).json({
+        status: 404,
+        message: "Nurse not found",
+      });
+    }
+    if (nurse.role !== "nurse") {
+      return res.status(403).json({
+        status: 403,
+        message: "User is not a nurse",
       });
     }
 
     const profile = await Profile.findOneAndUpdate(
       { user: req.user.id },
       { pricePerHour: price },
+      { new: true },
     );
-    console.log(profile);
     if (!profile) {
-      res.status(404).json({
+      return res.status(404).json({
         status: 404,
-        message: "Nurse does not have a profile`",
+        message: "Nurse does not have a profile",
       });
     }
     res.status(200).json({
