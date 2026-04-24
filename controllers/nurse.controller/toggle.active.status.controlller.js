@@ -11,8 +11,6 @@ const toggleActiveStatus = async (req, res) => {
       });
     }
     const activeStatus = nurse.activeStatus;
-    console.log("nurse:", nurse);
-    console.log(activeStatus);
     let status;
     if (activeStatus) {
       status = false;

@@ -20,7 +20,6 @@ const protect = async (req, res, next) => {
         message: "Invalid or expired token",
       });
     }
-    console.log(data);
     const email = data.user.email;
     const role = data.user.user_metadata.role;
 
@@ -33,7 +32,6 @@ const protect = async (req, res, next) => {
     }
 
     const user = await param;
-    console.log(user);
     if (role == "nurse") {
       req.user = {
         ...data.user,
@@ -45,11 +43,8 @@ const protect = async (req, res, next) => {
       req.user = { ...data.user, id: user._id, role: user.role };
     }
 
-    console.log(user);
-
     next();
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       status: 500,
       message: e.message,

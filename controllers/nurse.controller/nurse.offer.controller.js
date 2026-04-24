@@ -27,7 +27,7 @@ const createOffer = async (req, res) => {
     });
     res.status(201).json({
       status: 201,
-      message: "Offer created successfulluy",
+      message: "Offer created successfully",
       offer,
     });
   } catch (e) {
@@ -57,7 +57,7 @@ const editOffer = async (req, res) => {
     res.status(200).json({
       status: 200,
       offer,
-      message: "Offer edited succcessfully",
+      message: "Offer edited successfully",
     });
   } catch (e) {
     res.status(500).json({

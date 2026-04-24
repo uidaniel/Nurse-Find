@@ -17,7 +17,6 @@ const registerNurse = async (req, res) => {
     if (!validated) return;
 
     const nurseExists = await Nurse.findOne({ email });
-    console.log(nurseExists);
     if (nurseExists) {
       return res.status(400).json({
         status: 400,
@@ -59,7 +58,6 @@ const registerNurse = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       status: 500,
       message: error.message,

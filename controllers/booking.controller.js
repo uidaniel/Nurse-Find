@@ -83,13 +83,10 @@ const addBooking = async (req, res) => {
       return diffInHours;
     };
 
-    console.log(serviceInfo);
-
     const durationInHours = getDurationInHours(
       serviceInfo.startAt,
       serviceInfo.endAt,
     );
-    console.log(durationInHours);
     const pricePerHour = nurseProfile.pricePerHour;
 
     const booking = await Booking.create({
@@ -130,18 +127,18 @@ const getSingleBooking = async (req, res) => {
     if (!validated) return;
     const booking = await Booking.findById(id).populate(["nurseOffers"]);
 
-    const nurseInfo = await Profile.findOne({ user: booking.nurse })
-      .populate("user")
-      .select("+pricePerHour +rating +accountType -bookingHistory");
-    console.log(nurseInfo);
-
     if (!booking) {
       return res.status(404).json({
-        status: 400,
+        status: 404,
         message: "Booking not found",
       });
     }
-    res.status(201).json({
+
+    const nurseInfo = await Profile.findOne({ user: booking.nurse })
+      .populate("user")
+      .select("+pricePerHour +rating +accountType -bookingHistory");
+
+    res.status(200).json({
       status: 200,
       booking,
       nurseInfo,
@@ -156,15 +153,14 @@ const getSingleBooking = async (req, res) => {
 
 const getBookings = async (req, res) => {
   try {
-    if (!validated) return;
-    const bookings = await Booking.findById({ user: req.user.id });
-    if (!bookings) {
+    const bookings = await Booking.find({ user: req.user.id });
+    if (!bookings || bookings.length === 0) {
       return res.status(404).json({
         status: 404,
         message: "User does not have any booking",
       });
     }
-    res.status(201).json({
+    res.status(200).json({
       status: 200,
       bookings,
     });
@@ -193,25 +189,20 @@ const updateBookingStatus = async (req, res) => {
         message: "status field is required",
       });
     }
-    const booking = await Booking.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true },
-    );
-    console.log(booking);
+    const booking = await Booking.findById(id);
     if (!booking) {
-      return res.status(400).json({
-        status: 400,
+      return res.status(404).json({
+        status: 404,
         message: "Booking not found",
       });
     }
-    console.log(booking.user.toString(), req.user.id.toString());
     if (booking.user.toString() !== req.user.id.toString()) {
-      return res.status(400).json({
-        status: 400,
-        message: "Cannot update status of user booking",
+      return res.status(403).json({
+        status: 403,
+        message: "Not authorized to update this booking",
       });
     }
+    await Booking.findByIdAndUpdate(id, { status });
     res.status(200).json({
       status: 200,
       message: "Status updated successfully",
